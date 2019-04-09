@@ -1,9 +1,17 @@
-// rhf.hpp: Class for Restricted, closed-shell Hartree-Fock wave function
+/*
+ * ext_rhf.hpp
+ * 
+ * Copied: Apr 9, 2019
+ * Author: Bryce M. Westheimer
+ * 
+ * Description: External Restricted Hartree-Fock wave function class declaration
+ * 
+ */
 
-#ifndef LIBACCQC_RHF_HPP_
-#define LIBACCQC_RHF_HPP_
+#ifndef LIBACCQC_EXT_RHF_HPP_
+#define LIBACCQC_EXT_RHF_HPP_
 
-#include "abstract_scf_wavefns.hpp"
+#include "rhf.hpp"
 
 #include "dtl.hpp"  // Distributed vector and Matrix classes
 
@@ -13,19 +21,27 @@ namespace libaccqc {
 
     namespace single_reference {
 
-      // Restricted, closed-shell Hartree-Fock wave function. Generic class template.
-      // Attempts to build distributed matrices where applicable. Functionality then defined
-      // in template specializations
-      template<dtl::DistribType distrib_type>
-      class RhfWavefn : public RestrictScfWavefn {
+      /*! \class ExtRhfWavefn
+       *  \ingroup TODO:ADD_GROUP
+       * 
+       *  \brief The Restricted Hartree-Fock wave function class
+       * 
+       *  \details TODO
+       * 
+       *  \author Bryce M. Westheimer
+       * 
+       *  \date Apr 8, 2019 (Copied)
+       * 
+       */ 
+      class ExtRhfWavefn : public RhfScfWavefn {
 
         public:
 
         /***** Constructor(s) and Destructor(s) *****/
 
-          RhfWavefn();
+          ExtRhfWavefn();
           // TODO: Etc.
-          ~RhfWavefn();
+          ~ExtRhfWavefn();
 
         /***** Public Member Functions *****/
 
@@ -57,27 +73,23 @@ namespace libaccqc {
 
         /***** Private Member Variables *****/
 
-          // Hartree-Fock-Roothaan-Hall matrices
-          dtl::math::Matrix<double, distrib_type> overlap_matrix_;
-          dtl::math::Matrix<double, distrib_type> core_matrix_;
-          dtl::math::Matrix<double, distrib_type> fock_matrix_;
-          dtl::math::Matrix<double, dtl::DistribType::none> density_matrix_;  // No need to distribute or treat as replicated, just keep local version
-          dtl::math::Matrix<double, dtl::DistribType::none> coeff_matrix_;    // No need to distribute or treat as replicated, just keep local version
+          // Hartree-Fock-Roothaan-Hall matrices. External, so use pointers to first element of each.
+          double* overlap_matrix_;
+          double* core_matrix_;
+          double* fock_matrix_;
+          double* density_matrix_;
+          double* orbital_coeff_matrix_;
+
+          // Major dimension of external matrices
+          enum class MatrixMajorDim {
+            Row,
+            Column
+          } matrix_major_dimension_;
 
           // TODO: Etc.
 
       };
-
-      /***** Distributed specializations of various member functions in RhfWavefn *****/
-
-      /*
-      * Format:
-      * 
-      *    template<>
-      *    ReturnType RhfWavefn<DistribType::distributed>::function_name(params) { ... }
-      * 
-      */
-
+      
     } // namespace libaccqc::wavefunctions::single_reference
     
   } // namespace libaccqc::wavefunctions
