@@ -266,8 +266,19 @@ namespace libaccqc {
 
         /***** Constructor(s) and Destructor(s) *****/
 
+          /// Default constructor
           MultirefScfWavefn();
-          // TODO: Etc.
+
+
+          /// Constructor with passed-in reference wave function
+          MultirefScfWavefn(RefWavefnType ref_wavefn) :
+            reference_wavefn_(ref_wavefn) {
+
+              // TODO: Etc.
+
+            }
+
+          /// Default destructor
           ~MultirefScfWavefn();
 
         /***** Public Member Functions *****/
